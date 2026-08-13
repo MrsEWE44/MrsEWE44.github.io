@@ -18,6 +18,67 @@
 })();
 
 (function () {
+  // 为文章正文中的代码块添加「复制」按钮
+  var content = document.querySelector('.post-content');
+  if (!content) return;
+
+  var blocks = content.querySelectorAll('figure.highlight, pre');
+  blocks.forEach(function (block) {
+    // 跳过 figure 里的内层 pre，避免重复
+    if (block.tagName === 'PRE' && block.closest('figure.highlight')) return;
+
+    var btn = document.createElement('button');
+    btn.className = 'code-copy';
+    btn.type = 'button';
+    btn.innerHTML = '复制';
+    btn.setAttribute('aria-label', '复制代码');
+
+    btn.addEventListener('click', function () {
+      var code = block.querySelector('code') || block;
+      var text = getCodeText(code);
+      copyText(text, btn);
+    });
+
+    block.appendChild(btn);
+  });
+
+  // 保留原始格式：把 <br> 替换为换行，再取文本
+  function getCodeText(node) {
+    var clone = node.cloneNode(true);
+    clone.querySelectorAll('br').forEach(function (br) {
+      br.parentNode.insertBefore(document.createTextNode('\n'), br);
+      br.parentNode.removeChild(br);
+    });
+    // 去掉因渲染产生的首尾多余换行，保留内容本身的缩进与空行
+    return clone.textContent.replace(/^\s*\n/, '').replace(/\s+$/, '');
+  }
+
+  function copyText(text, btn) {
+    var done = function () {
+      var old = btn.innerHTML;
+      btn.innerHTML = '已复制 ✓';
+      btn.classList.add('copied');
+      setTimeout(function () { btn.innerHTML = old; btn.classList.remove('copied'); }, 1500);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(function () { fallback(text); });
+    } else {
+      fallback(text);
+    }
+    function fallback(text) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); done(); } catch (e) { alert('复制失败，请手动复制'); }
+      document.body.removeChild(ta);
+    }
+  }
+})();
+
+(function () {
   var list = document.getElementById('post-list');
   if (!list) return;
   var cards = Array.prototype.slice.call(list.querySelectorAll('.post-card'));

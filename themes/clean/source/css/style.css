@@ -365,6 +365,7 @@ a:hover { color: var(--accent); }
   overflow-x: auto;
   line-height: 1.6;
   font-size: 13.5px;
+  position: relative;
 }
 .post-content pre code {
   background: none;
@@ -381,6 +382,7 @@ a:hover { color: var(--accent); }
   border-radius: var(--radius);
   margin: 1.4em 0;
   overflow: hidden;
+  position: relative;
 }
 .post-content figure.highlight table,
 .post-content figure.highlight tr,
@@ -390,7 +392,7 @@ a:hover { color: var(--accent); }
   border: none;
   background: transparent;
 }
-.post-content figure.highlight table { width: 100%; border-collapse: collapse; }
+.post-content figure.highlight table { width: 100%; border-collapse: collapse; table-layout: fixed; }
 .post-content figure.highlight td.gutter {
   width: 42px;
   padding: 16px 0 16px 14px;
@@ -401,7 +403,10 @@ a:hover { color: var(--accent); }
   border-right: 1px solid var(--border);
   background: #f1f3f5;
 }
-.post-content figure.highlight td.code { vertical-align: top; }
+.post-content figure.highlight td.code {
+  vertical-align: top;
+  overflow-x: auto;
+}
 .post-content figure.highlight td.gutter pre,
 .post-content figure.highlight td.code pre {
   background: none;
@@ -413,7 +418,7 @@ a:hover { color: var(--accent); }
   overflow: visible;
 }
 .post-content figure.highlight td.gutter pre { padding-right: 12px; line-height: 22px; }
-.post-content figure.highlight td.code pre { padding: 16px 20px; line-height: 22px; }
+.post-content figure.highlight td.code pre { padding: 16px 20px; line-height: 22px; white-space: pre; }
 .post-content figure.highlight td.gutter .line {
   color: #8c959f;
   font-size: 12px;
@@ -461,6 +466,32 @@ a:hover { color: var(--accent); }
 .post-content .hljs-name,
 .post-content .hljs-tag,
 .post-content .hljs-deletion { color: #cf222e; }
+
+/* ---------- 代码复制按钮 ---------- */
+.code-copy {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--text-soft);
+  font-family: var(--mono);
+  font-size: 11.5px;
+  line-height: 1.4;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s, color 0.2s, border-color 0.2s;
+}
+.post-content pre:hover .code-copy,
+.post-content figure.highlight:hover .code-copy { opacity: 1; }
+.code-copy:hover { color: var(--accent); border-color: var(--accent); }
+.code-copy.copied { color: var(--green); border-color: var(--green); }
 
 /* ---------- Post nav ---------- */
 .post-nav {
@@ -532,14 +563,94 @@ a:hover { color: var(--accent); }
 }
 .site-footer a { color: var(--accent); }
 
-/* ---------- Mobile ---------- */
-@media (max-width: 600px) {
-  .site-nav { gap: 12px; }
-  .nav-link { font-size: 12px; }
+/* ---------- Contact list ---------- */
+.contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 20px 0 30px;
+  max-width: 420px;
+}
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+a.contact-item:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow);
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+.contact-item svg { flex-shrink: 0; color: var(--accent); }
+.contact-label {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-soft);
+  min-width: 46px;
+}
+.contact-value {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text);
+  word-break: break-all;
+}
+
+/* ---------- Mobile / small screens ---------- */
+@media (max-width: 768px) {
+  .container { padding: 0 16px; }
+  .header-inner { padding: 12px 16px; gap: 10px; }
+  .home-hero { padding: 40px 0 20px; }
   .hero-title { font-size: 26px; }
+  .hero-script { font-size: 12px; padding: 12px 14px; }
+  .post-page, .page-body { padding: 28px 0 16px; }
+  .page-title { font-size: 24px; }
   .post-page .post-title { font-size: 24px; }
-  .post-title { font-size: 18px; }
+  .post-content { font-size: 15px; }
+  .post-content h1 { font-size: 22px; }
+  .post-content h2 { font-size: 19px; }
+  .post-content h3 { font-size: 17px; }
+  .post-nav { flex-direction: column; gap: 10px; }
+  .post-nav a { max-width: 100%; }
   .archive-item { flex-direction: column; gap: 4px; }
+  .back-top { right: 14px; bottom: 14px; width: 38px; height: 38px; }
+  .post-content figure.highlight td.gutter { width: 34px; padding-left: 10px; }
+  .post-content figure.highlight td.code pre { padding: 14px 14px; }
+  .post-content figure.highlight td.code code { font-size: 12.5px; }
+}
+
+@media (max-width: 480px) {
+  .site-nav { gap: 10px; }
+  .nav-link { font-size: 12px; }
+  .site-brand { font-size: 14px; }
+  .hero-title { font-size: 22px; }
+  .hero-title .cursor { width: 10px; height: 20px; }
+  .hero-badge { font-size: 11px; padding: 3px 10px; }
+  .post-card .card-body { padding: 14px 16px; }
+  .post-title { font-size: 18px; }
+  .post-meta { font-size: 11px; gap: 8px; }
+  .pagination-tools { flex-direction: column; align-items: stretch; gap: 8px; }
+  .per-page { justify-content: space-between; }
+  .pagination-info { text-align: center; }
+  .pagination-jump { flex-wrap: wrap; }
+  /* 移动端代码块取消 hover 才显示复制按钮 */
+  .code-copy { opacity: 1; }
+  .post-content table { display: block; overflow-x: auto; }
+  .site-footer { padding: 20px 12px 36px; font-size: 11.5px; }
+}
+
+/* 极窄屏：顶部导航可横向滚动，避免溢出 */
+@media (max-width: 420px) {
+  .header-inner { flex-wrap: wrap; }
+  .site-nav { flex: 1 1 100%; order: 2; justify-content: flex-start; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .site-nav::-webkit-scrollbar { height: 0; }
+  .site-brand { order: 1; }
 }
 
 /* Back to top */

@@ -599,8 +599,8 @@ var editor = new EasyMDE({
     .then(function (d) {
       if (!d.ok) { toast('加载失败：' + d.error, true); return; }
       titleEl.value = d.title || '';
-      catEl.value = (d.categories || []).join ? d.categories.join(', ') : d.categories || '';
-      tagEl.value = (d.tags || []).join ? d.tags.join(', ') : d.tags || '';
+      catEl.value = d.categories || '';
+      tagEl.value = d.tags || '';
       coverEl.value = d.cover || '';
       editor.value(d.content || '');
       saveBtn.textContent = '更新文章';
