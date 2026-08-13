@@ -1,0 +1,41 @@
+<article class="post-page">
+  <header class="post-header">
+    <% if (page.cover) { %>
+      <img class="post-cover" src="<%- page.cover %>" alt="<%= page.title %>">
+    <% } %>
+    <h1 class="post-title"><%= page.title %></h1>
+    <div class="post-meta">
+      <time datetime="<%= date(page.date, 'YYYY-MM-DD') %>"><%= date(page.date, 'YYYY年M月D日') %></time>
+      <% if (page.categories && page.categories.length) { %>
+        <span class="dot"></span>
+        <span class="post-cats">
+          <% page.categories.each(function (cat) { %>
+            <a class="cat" href="<%- url_for(cat.path) %>"><%= cat.name %></a>
+          <% }); %>
+        </span>
+      <% } %>
+      <% if (page.tags && page.tags.length) { %>
+        <span class="dot"></span>
+        <span class="post-tags">
+          <% page.tags.each(function (tag) { %>
+            <a class="tag" href="<%- url_for(tag.path) %>"># <%= tag.name %></a>
+          <% }); %>
+        </span>
+      <% } %>
+    </div>
+  </header>
+  <div class="post-content">
+    <%- page.content %>
+  </div>
+</article>
+
+<% if (page.prev || page.next) { %>
+  <nav class="post-nav">
+    <% if (page.prev) { %>
+      <a class="post-nav-prev" href="<%- url_for(page.prev.path) %>">← <%= page.prev.title %></a>
+    <% } %>
+    <% if (page.next) { %>
+      <a class="post-nav-next" href="<%- url_for(page.next.path) %>"><%= page.next.title %> →</a>
+    <% } %>
+  </nav>
+<% } %>

@@ -1,0 +1,10 @@
+<h1 class="page-title">分类</h1>
+<ul class="tag-cloud">
+  <% site.categories.map(function (category) { return category; }).sort(function (a, b) { return b.length - a.length; }).forEach(function (category) { %>
+    <% if (category.length) { %>
+      <li class="tag-cloud-item">
+        <a href="<%- url_for(category.path) %>"><%= category.name %> <span class="count"><%= category.length %></span></a>
+      </li>
+    <% } %>
+  <% }); %>
+</ul>

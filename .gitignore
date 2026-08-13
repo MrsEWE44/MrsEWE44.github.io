@@ -1,0 +1,44 @@
+# ---- 系统文件 ----
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*~
+
+# ---- 依赖 ----
+node_modules/
+.pnpm-store/
+
+# ---- Hexo 生成物 / 缓存 ----
+public/
+db.json
+.deploy*/
+_multiconfig.yml
+themes/*/.git
+scaffolds/draft.md
+*.log
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ---- 本地编辑器/IDE ----
+.vscode/
+.idea/
+*.iml
+.vs/
+.vscode/
+*.code-workspace
+
+# ---- 环境与密钥 ----
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# ---- 本地临时文件 ----
+.server-start.log
+hexo-server*.log
+.debug-match.log
+.tmp/
+tmp/

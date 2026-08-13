@@ -1,0 +1,78 @@
+<section class="home-hero">
+  <span class="hero-badge"><span class="blink"></span>系统运行中 · <%= site.posts.length %> 篇文章</span>
+  <h1 class="hero-title"><%= config.subtitle || '' %><span class="cursor"></span></h1>
+  <p class="hero-desc"><%= config.description || '' %></p>
+  <div class="hero-divider"></div>
+  <div class="hero-script" aria-hidden="true">
+    <div><span class="ln">01</span><span class="kw">while</span> (alive) {</div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="ln">02</span><span class="fn">learn</span>();</div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="ln">03</span><span class="fn">build</span>();</div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="ln">04</span><span class="fn">share</span>();</div>
+    <div><span class="ln">05</span>} <span class="cm">// never stop</span></div>
+  </div>
+</section>
+
+<section class="post-list" id="post-list">
+  <% site.posts.sort('-date').each(function (post) { %>
+    <article class="post-card" data-date="<%= date(post.date, 'YYYY-MM-DD') %>">
+      <% if (post.cover) { %>
+        <a class="card-cover" href="<%- url_for(post.path) %>">
+          <img src="<%- post.cover %>" alt="<%= post.title %>" loading="lazy">
+        </a>
+      <% } %>
+      <div class="card-body">
+        <div class="post-meta">
+          <time datetime="<%= date(post.date, 'YYYY-MM-DD') %>"><%= date(post.date, 'YYYY年M月D日') %></time>
+          <% if (post.categories && post.categories.length) { %>
+            <span class="dot"></span>
+            <span class="post-cats">
+              <% post.categories.each(function (cat) { %>
+                <a class="cat" href="<%- url_for(cat.path) %>"><%= cat.name %></a>
+              <% }); %>
+            </span>
+          <% } %>
+        </div>
+        <h2 class="post-title">
+          <a href="<%- url_for(post.path) %>"><%= post.title %></a>
+        </h2>
+        <% if (post.tags && post.tags.length) { %>
+          <div class="post-tags">
+            <% post.tags.each(function (tag) { %>
+              <a class="tag" href="<%- url_for(tag.path) %>"># <%= tag.name %></a>
+            <% }); %>
+          </div>
+        <% } %>
+        <% if (post.excerpt) { %>
+          <div class="post-excerpt"><%- post.excerpt %></div>
+        <% } %>
+        <a class="read-more" href="<%- url_for(post.path) %>">阅读全文</a>
+      </div>
+    </article>
+  <% }); %>
+</section>
+
+<div class="pagination" id="pagination">
+  <div class="pagination-tools">
+    <label class="per-page">
+      每页
+      <select id="per-page-select">
+        <option value="5" selected>5</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="0">全部</option>
+      </select>
+      篇
+    </label>
+    <span class="pagination-info" id="pagination-info"></span>
+  </div>
+  <div class="pagination-buttons">
+    <button class="page-btn" id="page-prev" aria-label="上一页">←</button>
+    <div class="page-numbers" id="page-numbers"></div>
+    <button class="page-btn" id="page-next" aria-label="下一页">→</button>
+  </div>
+  <div class="pagination-jump">
+    <span>跳转到</span>
+    <input type="number" id="jump-input" min="1" value="1">
+    <button class="page-btn" id="jump-btn">确定</button>
+  </div>
+</div>

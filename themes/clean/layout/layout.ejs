@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%- page.title || config.title %> · <%= config.title %></title>
+  <%- css('css/style.css') %>
+  <%- css('//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/github.min.css') %>
+</head>
+<body>
+  <%- partial('_partial/header') %>
+  <main class="container">
+    <%- body %>
+  </main>
+  <%- partial('_partial/footer') %>
+  <%- js('js/script.js') %>
+</body>
+</html>

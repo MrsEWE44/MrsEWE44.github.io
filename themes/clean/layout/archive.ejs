@@ -1,0 +1,10 @@
+<h1 class="page-title">归档</h1>
+<ul class="archive-list">
+  <% page.posts.each(function (post) { %>
+    <li class="archive-item">
+      <time datetime="<%= date(post.date, 'YYYY-MM-DD') %>"><%= date(post.date, 'YYYY-MM-DD') %></time>
+      <a href="<%- url_for(post.path) %>"><%= post.title %></a>
+    </li>
+  <% }); %>
+</ul>
+<%- partial('_partial/pagination') %>

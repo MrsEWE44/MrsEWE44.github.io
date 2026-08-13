@@ -1,0 +1,14 @@
+<% if (page.prev || page.next) { %>
+  <nav class="pagination">
+    <% if (page.prev) { %>
+      <a class="page-prev" href="<%- url_for(page.prev_link) %>">← 上一页</a>
+    <% } else { %>
+      <span class="page-prev disabled">← 上一页</span>
+    <% } %>
+    <% if (page.next) { %>
+      <a class="page-next" href="<%- url_for(page.next_link) %>">下一页 →</a>
+    <% } else { %>
+      <span class="page-next disabled">下一页 →</span>
+    <% } %>
+  </nav>
+<% } %>

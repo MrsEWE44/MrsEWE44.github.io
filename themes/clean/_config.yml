@@ -1,0 +1,12 @@
+# clean theme config
+nav:
+  - label: 首页
+    url: /
+  - label: 归档
+    url: /archives/
+  - label: 分类
+    url: /categories/
+  - label: 标签
+    url: /tags/
+  - label: 关于
+    url: /about/
